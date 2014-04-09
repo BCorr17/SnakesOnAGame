@@ -21,6 +21,7 @@ namespace SnakesOnAGame
         SpriteBatch spriteBatch;
         List<Vector2> snake = new List<Vector2>();
         int SnakeTexture;
+        Texture2D snakeTexture;
 
         public Game1()
         {
@@ -49,6 +50,7 @@ namespace SnakesOnAGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            snakeTexture = Content.Load<Texture2D>(@"Snake");
             {
                 snake.Add(new Vector2(40, 24));
             }
@@ -87,16 +89,18 @@ namespace SnakesOnAGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Color.Cyan);
             // TODO: Add your drawing code here
 
             for (int i = 0; i < snake.Count; i++)
             {
-                spriteBatch.Draw(SnakeTexture, snake[i] * 10, Color.White);
+                spriteBatch.Begin();
+                spriteBatch.Draw(snakeTexture, snake[i] * 10, Color.Yellow);
+                spriteBatch.End();
             }
 
             base.Draw(gameTime);
+
         }
     }
 }
