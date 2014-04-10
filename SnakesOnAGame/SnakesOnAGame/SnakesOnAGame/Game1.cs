@@ -84,7 +84,13 @@ namespace SnakesOnAGame
             keyboardState kb = Keyboard.GetState();
             if (kb.IsKeydown(Keys.Up))
             {
-
+                Velocity = new Vector2(0, -1);
+                snake[0] += Velocity;
+            }
+            else if (kb.IsKeydown(Keys.Down))
+            {
+                Velocity = new Vector2(0, 1);
+                snake[0] += Velocity;
             }
 
             base.Update(gameTime);
