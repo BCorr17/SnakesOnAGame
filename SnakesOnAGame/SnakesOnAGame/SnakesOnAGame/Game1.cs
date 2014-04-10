@@ -22,6 +22,7 @@ namespace SnakesOnAGame
         List<Vector2> snake = new List<Vector2>();
         int SnakeTexture;
         Texture2D snakeTexture;
+        Vector2 Velocity = new Vector2(0, -1);
 
         public Game1()
         {
@@ -79,6 +80,12 @@ namespace SnakesOnAGame
                 this.Exit();
 
             // TODO: Add your update logic here
+
+            keyboardState kb = Keyboard.GetState();
+            if (kb.IsKeydown(Keys.Up))
+            {
+
+            }
 
             base.Update(gameTime);
         }
