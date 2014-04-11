@@ -108,6 +108,7 @@ namespace SnakesOnAGame
             }
 
 
+
             snakeMovementTimer += (float)gameTime.ElapsedGameTime.Milliseconds;
 
             if (snakeMovementTimer > snakeMovementTime)
