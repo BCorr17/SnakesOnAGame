@@ -51,10 +51,11 @@ namespace SnakesOnAGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            snakeTexture = Content.Load<Texture2D>(@"Snake");
             {
                 snake.Add(new Vector2(40, 24));
             }
+
+            snakeTexture = Content.Load<Texture2D>(@"Snake");
 
             // TODO: use this.Content to load your game content here
         }
@@ -82,6 +83,7 @@ namespace SnakesOnAGame
             // TODO: Add your update logic here
 
             keyboardState kb = Keyboard.GetState();
+
             if (kb.IsKeydown(Keys.Up))
             {
                 Velocity = new Vector2(0, -1);
@@ -90,6 +92,16 @@ namespace SnakesOnAGame
             else if (kb.IsKeydown(Keys.Down))
             {
                 Velocity = new Vector2(0, 1);
+                snake[0] += Velocity;
+            }
+            else if (kb.IsKeydown(Keys.Right))
+            {
+                Velocity = new Vector2(1, 0);
+                snake[0] += Velocity;
+            }
+            else if (kb.IsKeydown(Keys.Left))
+            {
+                Velocity = new Vector2(-1, 0);
                 snake[0] += Velocity;
             }
 
