@@ -24,6 +24,9 @@ namespace SnakesOnAGame
         Texture2D snakeTexture;
         Vector2 Velocity = new Vector2(0, -1);
 
+        float snakeMovementTimer = 0f;
+        float snakeMovementTime = 60f;  // 60 ms between updates
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -80,30 +83,38 @@ namespace SnakesOnAGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic her
 
-            keyboardState kb = Keyboard.GetState();
+            KeyboardState kb = Keyboard.GetState();
 
-            if (kb.IsKeydown(Keys.Up))
+            if (kb.IsKeyDown(Keys.Up))
             {
                 Velocity = new Vector2(0, -1);
-                snake[0] += Velocity;
+                
             }
-            else if (kb.IsKeydown(Keys.Down))
+            else if (kb.IsKeyDown(Keys.Down))
             {
                 Velocity = new Vector2(0, 1);
-                snake[0] += Velocity;
+
             }
-            else if (kb.IsKeydown(Keys.Right))
+            else if (kb.IsKeyDown(Keys.Right))
             {
                 Velocity = new Vector2(1, 0);
-                snake[0] += Velocity;
+
             }
-            else if (kb.IsKeydown(Keys.Left))
+            else if (kb.IsKeyDown(Keys.Left))
             {
                 Velocity = new Vector2(-1, 0);
-                snake[0] += Velocity;
             }
+
+
+            snakeMovementTimer += (float)gameTime.ElapsedGameTime.Milliseconds;
+
+            if (snakeMovementTimer > snakeMovementTime)
+            {
+                snake[0] += Velocity;
+                snakeMovementTimer = 0f;
+            } 
 
             base.Update(gameTime);
         }
