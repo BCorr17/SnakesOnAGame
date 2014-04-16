@@ -24,11 +24,8 @@ namespace SnakesOnAGame
         Texture2D snakeTexture;
         Vector2 Velocity = new Vector2(0, -1);
         Random rand = new Random();
-        Texture2D squareTexture;
-        Rectangle currentSquare;
+        Texture2D pelletTexture;
         int playerScore = 0;
-        float timeRemaining = 0.0f;
-        const float TimePerSquare = 0.75f;
 
         float snakeMovementTimer = 0f;
         float snakeMovementTime = 60f;  // 60 ms between updates
@@ -65,7 +62,6 @@ namespace SnakesOnAGame
             }
 
             snakeTexture = Content.Load<Texture2D>(@"Snake");
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -96,7 +92,7 @@ namespace SnakesOnAGame
             if (kb.IsKeyDown(Keys.Up) && Velocity.Y != +1)
             {
                 Velocity = new Vector2(0, -1);
-                
+
             }
             else if (kb.IsKeyDown(Keys.Down) && Velocity.Y != -1)
             {
@@ -126,38 +122,28 @@ namespace SnakesOnAGame
 
                 snake[0] += Velocity;
                 snakeMovementTimer = 0f;
+
+                for (int i = 1; i < snake.Count; i++)
+                {
+                    if (snake[0] == snake[i])
+                    {
+                        this.Exit();
+                    }
+                }
+
+                if (snake[0] == Pellet)
+                {
+                    snake.Add(snake[0]);
+                    Pellet.X = rand.Next(5, 48);
+                    Pellet.Y = rand.Next(5, 28);
+                    playerScore++;
+                }
+                this.Window.Title = "Score : " + playerScore.ToString();
+
+
+
+                base.Update(gameTime);
             }
-
-            if (snake[0] == Pellet)
-            {
-                snake.Add(snake[0]);
-                Pellet.X = rand.Next(5, 48);
-                Pellet.Y = rand.Next(5, 28);
-            }
-
-
-            if (timeRemaining == 0.0f)
-            {
-                currentSquare = new Rectangle(
-                rand.Next(0, this.Window.ClientBounds.Width - 25),
-                rand.Next(0, this.Window.ClientBounds.Height - 25),
-                25, 25);
-                timeRemaining = TimePerSquare;
-            }
-            MouseState mouse = Mouse.GetState();
-            if ((mouse.LeftButton == ButtonState.Pressed) &&
-            (currentSquare.Contains(mouse.X, mouse.Y)))
-            {
-                playerScore++;
-                timeRemaining = 0.0f;
-            }
-            timeRemaining = MathHelper.Max(0, timeRemaining -
-            (float)gameTime.ElapsedGameTime.TotalSeconds);
-            this.Window.Title = "Score : " + playerScore.ToString();
-
-
-
-            base.Update(gameTime);
         }
 
         /// <summary>
@@ -166,19 +152,18 @@ namespace SnakesOnAGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Cyan);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            
 
             for (int i = 0; i < snake.Count; i++)
             {
-                spriteBatch.Draw(snakeTexture, snake[i] * 10, Color.Yellow);
+                spriteBatch.Begin();
+                spriteBatch.Draw(snakeTexture, snake[i] * 10, Color.White);
+                spriteBatch.Draw(snakeTexture, Pellet * 10, Color.White);
+                spriteBatch.End();
             }
-
-            spriteBatch.Draw(snakeTexture, Pellet * 10, Color.Pink);
-
-            spriteBatch.End();
 
             base.Draw(gameTime);
 
